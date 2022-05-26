@@ -18,7 +18,7 @@ const EmuAddon = require('@emulator/ml64_emu_addon.node');
 const path = require('path'), fs = require('fs');
 const fs_extra_1 = __importDefault(require("fs-extra"));
 
-class InputRumbleReport {
+class ShardOfAgony {
     preinit() {
         this.removeSync = fs_extra_1.default.removeSync;
         fs_extra_1.default.removeSync = function(path) {
@@ -27,7 +27,7 @@ class InputRumbleReport {
         }.bind(this);
 
         this.modDir = __dirname;
-        this.pluginTmpDir = path.join(process.cwd(), '.irrtmp');
+        this.pluginTmpDir = path.join(process.cwd(), '.soatmp');
         this.tmpModName = path.basename(path.resolve(path.join(__dirname, '..')));
         this.targetDll = path.join(process.cwd(), 'emulator', 'mupen64plus-input-sdl.dll');
 
@@ -36,12 +36,12 @@ class InputRumbleReport {
 
         this.helper = require(path.join(this.pluginTmpDir, 'helper.node'));
 
-        this.soundPath = path.join(__dirname, 'stone_of_agony.ogg');
-        if (fs.existsSync(path.join(this.pluginTmpDir, 'stone_of_agony.ogg')))
-            this.soundPath = path.join(this.pluginTmpDir, 'stone_of_agony.ogg');
-        this.iconPath = path.join(__dirname, 'stone_of_agony.png');
-        if (fs.existsSync(path.join(this.pluginTmpDir, 'stone_of_agony.png')))
-            this.iconPath = path.join(this.pluginTmpDir, 'stone_of_agony.png');
+        this.soundPath = path.join(__dirname, 'ShardOfAgony.ogg');
+        if (fs.existsSync(path.join(this.pluginTmpDir, 'ShardOfAgony.ogg')))
+            this.soundPath = path.join(this.pluginTmpDir, 'ShardOfAgony.ogg');
+        this.iconPath = path.join(__dirname, 'ShardOfAgony.png');
+        if (fs.existsSync(path.join(this.pluginTmpDir, 'ShardOfAgony.png')))
+            this.iconPath = path.join(this.pluginTmpDir, 'ShardOfAgony.png');
 
         this.initErrorCode = this.helper.initialize(this.targetDll, this.soundPath);
         this.rumbling = false;
@@ -58,7 +58,7 @@ class InputRumbleReport {
         const g = this.ModLoader.ImGui;
 
         if (this.initErrorCode != 0) {
-            g.textColored('InputReportPlugin initialization failed', { x: 1, y: 0, z: 0, w: 1 });
+            g.textColored('ShardOfAgony initialization failed', { x: 1, y: 0, z: 0, w: 1 });
             if (this.initErrorCode == -1) g.textColored('failed to open input plugin module', { x: 1, y: 0, z: 0, w: 1 });
             else if (this.initErrorCode == -2) g.textColored('failed to get report procedure', { x: 1, y: 0, z: 0, w: 1 });
             else g.text('unknown error');
@@ -67,7 +67,7 @@ class InputRumbleReport {
 
         if (g.beginMainMenuBar()) {
             if (g.beginMenu('Mods')) {
-                if (g.beginMenu('InputRumbleReport')) {
+                if (g.beginMenu('ShardOfAgony')) {
                     this.volume = [this.helper.getVolume()];
                     if (g.sliderInt('Volume', this.volume, 0, 100, '%d%%')) {
                         this.helper.setVolume(this.volume[0]);
@@ -102,12 +102,12 @@ class InputRumbleReport {
         }
 
         // g.setCursorPos({ x: g.getWindowSize().x - 146, y: g.getWindowSize().y - 30 });
-        // g.textColored("InputRumbleReport", { x: 0.8, y: 0.8, z: 0.5, w: 1 });
+        // g.textColored("ShardOfAgony", { x: 0.8, y: 0.8, z: 0.5, w: 1 });
     }
 }
 
-__decorate([ModLoaderAPIInjector.ModLoaderAPIInject()], InputRumbleReport.prototype, "ModLoader", void 0);
-__decorate([PluginLifecycle.Init()], InputRumbleReport.prototype, "init", null);
-__decorate([PluginLifecycle.onTick()], InputRumbleReport.prototype, "onTick", null);
-__decorate([PluginLifecycle.onViUpdate()], InputRumbleReport.prototype, "onViUpdate", null);
-module.exports = InputRumbleReport;
+__decorate([ModLoaderAPIInjector.ModLoaderAPIInject()], ShardOfAgony.prototype, "ModLoader", void 0);
+__decorate([PluginLifecycle.Init()], ShardOfAgony.prototype, "init", null);
+__decorate([PluginLifecycle.onTick()], ShardOfAgony.prototype, "onTick", null);
+__decorate([PluginLifecycle.onViUpdate()], ShardOfAgony.prototype, "onViUpdate", null);
+module.exports = ShardOfAgony;
